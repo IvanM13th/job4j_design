@@ -16,7 +16,7 @@ class NameLoadTest {
     void validateEqualitySymbol() {
         NameLoad nameLoad = new NameLoad();
         String name = "Ivan";
-        assertThatThrownBy(() -> nameLoad.validate(name))
+        assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(name)
                 .hasMessageContaining("Ivan");
@@ -26,7 +26,7 @@ class NameLoadTest {
     void validateStartsWith() {
         NameLoad nameLoad = new NameLoad();
         String name = "=";
-        assertThatThrownBy(() -> nameLoad.validate(name))
+        assertThatThrownBy(() -> nameLoad.parse(name))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageMatching("^.+")
                 .hasMessageContaining("key")
@@ -39,5 +39,14 @@ class NameLoadTest {
         assertThatThrownBy(nl::parse)
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("empty");
+    }
+
+    @Test
+    void checkIndexOf() {
+        NameLoad nameLoad = new NameLoad();
+        String[] names = new String[]{"-Key="};
+        assertThatThrownBy(() -> nameLoad.parse(names))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("this name: -Key= does not contain a value");
     }
 }
