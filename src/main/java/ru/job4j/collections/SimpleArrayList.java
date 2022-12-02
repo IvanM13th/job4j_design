@@ -16,29 +16,24 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
     @Override
     public void add(T value) {
-        checkEmptyContainer();
-        ensureCapacity(size + 1);
+        checkContainer();
         container[size++] = value;
         modCount++;
     }
 
     @Override
     public T set(int index, T newValue) {
-        checkEmptyContainer();
-        ensureCapacity(size + 1);
-        Objects.checkIndex(index, size);
-        System.arraycopy(container, index, container, index + 1, size - index);
+        var rsl = this.get(index);
         container[index] = newValue;
-        return container[index + 1];
+        return rsl;
     }
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, size);
-        var rsl = container[index];
-        System.arraycopy(container, index + 1, container, index, size - index - 1);
-        container[size - 1] = null;
+        var rsl = this.get(index);
         size--;
+        System.arraycopy(container, index + 1, container, index, size - index);
+        container[size] = null;
         modCount++;
         return rsl;
     }
@@ -60,6 +55,7 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         return new Iterator<T>() {
             final int expectedModCount = modCount;
             int point = 0;
+
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
@@ -78,16 +74,12 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         };
     }
 
-    public void ensureCapacity(int size) {
-        if (size > container.length) {
-            int newCapacity = container.length * 2;
-            this.container = Arrays.copyOf(container, newCapacity);
-        }
-    }
-
-    public void checkEmptyContainer() {
+    private void checkContainer() {
         if (container.length == 0) {
             this.container = Arrays.copyOf(container, 1);
+        } else if (size > container.length - 1) {
+            int newCapacity = container.length * 2;
+            this.container = Arrays.copyOf(container, newCapacity);
         }
     }
 }
