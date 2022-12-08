@@ -9,37 +9,26 @@ public class SimpleQueue<T> {
     private int countOut = 0;
 
     public T poll() {
-        T rsl = null;
         if (countIn == 0 && countOut == 0) {
             throw new NoSuchElementException();
         }
         if (countOut == 0) {
-            rsl = in.pop();
-            countIn--;
-        } else if (countOut != 0) {
-            rsl = out.pop();
-            countOut--;
+            while (countIn != 0) {
+                out.push(in.pop());
+                countIn--;
+                countOut++;
+            }
         }
-        return rsl;
+        countOut--;
+        return out.pop();
     }
 
     public void push(T value) {
-        if (countIn == 0) {
             in.push(value);
             countIn++;
-        } else {
-            while (countIn != 0) {
-                out.push(poll());
-                countOut++;
-            }
-            in.push(value);
-            countIn++;
-            while (countOut != 0) {
-                in.push(poll());
-                countIn++;
-            }
-        }
     }
 }
+
+
 
 
