@@ -20,19 +20,20 @@ public class ForwardReverse<T> implements Iterable<T> {
     }
 
     public boolean revert() {
-        if (head == null || head.next == null) {
-            return false;
+        boolean rsl = false;
+        if (head != null && head.next != null) {
+            Node<T> prev = null;
+            var current = head;
+            while (current != null) {
+                var tmpNext = current.next;
+                current.next = prev;
+                prev = current;
+                current = tmpNext;
+            }
+            head = prev;
+            rsl = true;
         }
-        Node<T> prev = null;
-        var current = head;
-        while (current != null) {
-            var tmpNext = current.next;
-            current.next = prev;
-            prev = current;
-            current = tmpNext;
-        }
-        head = prev;
-        return true;
+        return rsl;
     }
 
     @Override
