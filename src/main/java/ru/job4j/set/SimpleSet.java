@@ -14,13 +14,7 @@ public class SimpleSet<T> implements Set<T> {
 
     @Override
     public boolean add(T value) {
-        boolean rsl = true;
-        for (var o : set) {
-            if (Objects.equals(value, o)) {
-                rsl = false;
-                break;
-            }
-        }
+        boolean rsl = !this.contains(value);
         if (rsl) {
             set.add(value);
         }
