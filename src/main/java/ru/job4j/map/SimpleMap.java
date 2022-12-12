@@ -120,5 +120,4 @@ public class SimpleMap<K, V> implements Map<K, V> {
             this.value = value;
         }
     }
-
 }
