@@ -37,22 +37,28 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private void expand() {
-        if (count > capacity * LOAD_FACTOR) {
+        if (count >= capacity * LOAD_FACTOR) {
             capacity = capacity * 2;
+            MapEntry<K, V>[] tmp = new MapEntry[capacity];
+            for (var k : table) {
+                if (k != null) {
+                    int bucket = getBucket(k.key);
+                    tmp[bucket] = new MapEntry<>(k.key, k.value);
+                }
+            }
+            table = tmp;
         }
     }
 
     @Override
     public V get(K key) {
         V rsl = null;
-        int hc = checkHC(key);
+        int hc = Objects.hashCode(key);
         int bucket = getBucket(key);
-        if (table[bucket] != null) {
-            if (hc == checkHC(table[bucket].key)) {
-                if (Objects.equals(key, table[bucket].key)) {
-                    rsl = table[bucket].value;
-                }
-            }
+        if (table[bucket] != null
+                && hc == Objects.hashCode(table[bucket].key)
+                && Objects.equals(key, table[bucket].key)) {
+            rsl = table[bucket].value;
         }
         return rsl;
     }
@@ -61,12 +67,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean rsl = false;
         int bucket = getBucket(key);
-        if (count > 0 & table[bucket] != null) {
-            table[bucket] = null;
-            count--;
-            modCount++;
-            rsl = true;
-        } else if (count > 0 & bucket == 0) {
+        if (table[bucket] != null) {
             table[bucket] = null;
             count--;
             modCount++;
@@ -79,17 +80,17 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public Iterator<K> iterator() {
         return new Iterator<K>() {
             final int expectedModCount = modCount;
-            int point = 0;
+            private int point;
 
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (table[point] == null & point < capacity - 1) {
+                while (point != capacity && table[point] == null) {
                     point++;
                 }
-                return point < capacity - 1;
+                return point != capacity;
             }
 
             @Override
@@ -100,10 +101,6 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 return table[point++].key;
             }
         };
-    }
-
-    private int checkHC(K key) {
-        return key == null ? 0 : key.hashCode();
     }
 
     private int getBucket(K key) {

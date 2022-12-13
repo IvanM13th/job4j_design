@@ -75,6 +75,19 @@ class SimpleMapTest {
     }
 
     @Test
+    void whenMapExpand() {
+        map.put(null, "0000");
+        assertThat(map.put(15, "15")).isTrue();
+        assertThat(map).hasSize(6);
+        assertThat(map.put(8, "8")).isTrue();
+        assertThat(map.put(16, "16")).isFalse();
+        assertThat(map.get(4)).isEqualTo("4");
+        assertThat(map.get(8)).isEqualTo("8");
+        assertThat(map.get(15)).isEqualTo("15");
+        assertThat(map).hasSize(7).contains(null, 1, 2, 3, 4, 8, 15);
+    }
+
+    @Test
     void whenConcurrentIteratorRemove() {
         Iterator<Integer> it = map.iterator();
         map.remove(1);
@@ -135,5 +148,35 @@ class SimpleMapTest {
         SimpleMap<Integer, String> map = new SimpleMap<>();
         assertThat(map.put(0, "0")).isTrue();
         assertThat(map.get(null)).isNull();
+    }
+
+    @Test
+    void whenPutThenRemoveAll() {
+      assertThat(map.put(5, "5")).isTrue();
+      assertThat(map.put(6, "6")).isTrue();
+      assertThat(map.put(7, "7")).isTrue();
+        map.remove(1);
+        map.remove(2);
+        map.remove(3);
+        map.remove(4);
+        map.remove(5);
+        map.remove(6);
+        map.remove(7);
+        assertThat(map).hasSize(0);
+    }
+
+    @Test
+    void whenGetTrueThenNull() {
+        assertThat(map.get(3)).isNotNull();
+        assertThat(map.get(6)).isNull();
+    }
+
+    @Test
+    void whenSameKeysButCME() {
+        Iterator<Integer> it = map.iterator();
+        map.put(5, "5");
+        map.remove(5);
+        assertThatThrownBy(it::hasNext)
+                .isInstanceOf(ConcurrentModificationException.class);
     }
 }
