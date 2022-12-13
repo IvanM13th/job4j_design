@@ -67,7 +67,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         boolean rsl = false;
         int bucket = getBucket(key);
-        if (table[bucket] != null) {
+        if (table[bucket] != null
+                && Objects.hashCode(key) == Objects.hashCode(table[bucket].key)
+                && Objects.equals(key, table[bucket].key)) {
             table[bucket] = null;
             count--;
             modCount++;
