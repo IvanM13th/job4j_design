@@ -1,5 +1,7 @@
 package ru.job4j.question;
 
+import java.util.Objects;
+
 public class User {
 
     private int id;
@@ -35,7 +37,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return id == user.id;
+        return id == user.id && Objects.equals(name, user.name);
     }
 
     @Override

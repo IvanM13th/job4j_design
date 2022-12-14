@@ -1,5 +1,6 @@
 package ru.job4j.question;
 
+import java.util.HashMap;
 import java.util.Set;
 
 public class Analize {
@@ -8,21 +9,22 @@ public class Analize {
         int added = 0;
         int changed = 0;
         int removed = 0;
-        int count = 0;
-        for (User c : current) {
-            if (!previous.contains(c)) {
+        HashMap<Integer, User> map = new HashMap<>();
+        for (var p : previous) {
+            map.put(p.getId(), p);
+        }
+
+        for (var c : current) {
+            if (!map.containsKey(c.getId())) {
                 added++;
             }
-            for (var p : previous) {
-                if (c.getId() == p.getId() && !c.getName().equals(p.getName())) {
-                    changed++;
-                }
-                if (!current.contains(p) && count < previous.size()) {
-                    removed++;
-                }
-                count++;
+            if (!map.containsValue(c) && map.containsKey(c.getId())) {
+                changed++;
             }
+            map.remove(c.getId());
         }
+        removed = map.size();
+
         return new Info(added, changed, removed);
     }
 }
