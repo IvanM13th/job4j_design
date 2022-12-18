@@ -10,8 +10,8 @@ public class Logfilter {
         List<String> errors = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             for (String line = in.readLine(); line != null; line = in.readLine()) {
-                String[] errorCode = line.split("HTTP/1.1\" ");
-                if (errorCode[errorCode.length - 1].startsWith("404")) {
+                String[] errorCode = line.split(" ");
+                if (errorCode[errorCode.length - 2].equals("404")) {
                     errors.add(line);
                 }
             }
@@ -24,6 +24,7 @@ public class Logfilter {
     public static void main(String[] args) {
         Logfilter lofFilter = new Logfilter();
         List<String> log = lofFilter.filter("log.txt");
+        System.out.println(log.size());
         System.out.println(log);
     }
 }
