@@ -40,7 +40,7 @@ class ConfigTest {
 
     @Test
     void whenNoValueAndNoKey() {
-        String path = "./data/whenNoValueAndNoKey.properties";
+        String path = "./data/NoValueAndNoKey.properties";
         Config config = new Config(path);
         assertThatThrownBy(config::load)
                 .hasMessageContaining("has no key or has no value")
