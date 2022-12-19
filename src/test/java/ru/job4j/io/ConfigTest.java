@@ -43,6 +43,7 @@ class ConfigTest {
         String path = "./data/whenNoValueAndNoKey.properties";
         Config config = new Config(path);
         assertThatThrownBy(config::load)
+                .hasMessageContaining("has no key or has no value")
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

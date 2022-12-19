@@ -20,7 +20,7 @@ public class Config {
     public void load() {
         try (BufferedReader in = new BufferedReader(new FileReader(this.path))) {
             for (String line = in.readLine(); line != null; line = in.readLine()) {
-                if (!line.startsWith("#") && line.length() > 0) {
+                if (!line.startsWith("#") && !line.isBlank()) {
                     String[] pairs = line.split("=", 2);
                     validString(pairs, line);
                     values.put(pairs[0], pairs[1]);
@@ -39,14 +39,10 @@ public class Config {
         return values;
     }
 
-    public boolean validString(String[] pairs, String line) {
-        if (!line.contains("=")) {
-            throw new IllegalArgumentException();
+    private void validString(String[] pairs, String line) {
+        if (pairs.length != 2 || pairs[0].isEmpty() || pairs[1].isEmpty()) {
+            throw new IllegalArgumentException("Line" + line + "has no key or has no value");
         }
-        if (pairs.length == 0 || pairs[0].isEmpty() || pairs[1].isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        return true;
     }
 
     @Override
