@@ -8,13 +8,17 @@ import java.util.Map;
 
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
-        printDuplicates(Path.of("F:\\music"));
+        Map<FileProperty, List<Path>> map = findFiles(Path.of("F:\\music"));
+        printDuplicates(map);
     }
 
-    public static void printDuplicates(Path root) throws IOException {
+    public static Map<FileProperty, List<Path>> findFiles(Path root) throws IOException {
         DuplicatesVisitor finder = new DuplicatesVisitor();
         Files.walkFileTree(root, finder);
-        Map<FileProperty, List<Path>> dupl = finder.getFiles();
+        return finder.getFiles();
+    }
+
+    public static void printDuplicates(Map<FileProperty, List<Path>> dupl) {
         for (var k : dupl.keySet()) {
             List<Path> dir = dupl.get(k);
             if (dir.size() > 1) {
