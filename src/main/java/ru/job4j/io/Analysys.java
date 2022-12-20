@@ -16,7 +16,7 @@ public class Analysys {
                 if (down && !"400".equals(s[0]) && !"500".equals(s[0])) {
                     down = false;
                     endTime = s[1];
-                    print.write(String.format("%s;%s\n", startTime, endTime));
+                    print.printf("%s;%s\n", startTime, endTime);
                 }
 
                 if (("400".equals(s[0]) || "500".equals(s[0])) && !down) {
