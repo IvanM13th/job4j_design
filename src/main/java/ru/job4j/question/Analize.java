@@ -1,7 +1,6 @@
 package ru.job4j.question;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class Analize {
 
@@ -28,4 +27,3 @@ public class Analize {
         return new Info(added, changed, removed);
     }
 }
-
