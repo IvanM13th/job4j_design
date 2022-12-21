@@ -7,7 +7,9 @@ public class ArgsName {
     private final Map<String, String> values = new HashMap<>();
 
     public String get(String key) {
-        validateKey(key);
+        if (!values.containsKey(key)) {
+            throw new IllegalArgumentException();
+        }
         return values.get(key);
     }
 
@@ -20,30 +22,18 @@ public class ArgsName {
     }
 
     private void validateString(String[] str) {
-        if (str.length != 2 || str[0].length() < 2 || "".equals(str[1])) {
+        if (str.length != 2 || str[0].length() < 2 || str[1].isBlank()) {
             throw new IllegalArgumentException();
         }
-    }
-
-    private void validateKey(String key) {
-        if (!values.containsKey(key)) {
+        if (!str[0].startsWith("-")) {
             throw new IllegalArgumentException();
-        }
-    }
-
-    private static void validateArgs(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException();
-        }
-        for (var s : args) {
-            if (!"-".equals(String.valueOf(s.charAt(0)))) {
-                throw new IllegalArgumentException();
-            }
         }
     }
 
     public static ArgsName of(String[] args) {
-        validateArgs(args);
+        if (args.length == 0) {
+            throw new IllegalArgumentException();
+        }
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
