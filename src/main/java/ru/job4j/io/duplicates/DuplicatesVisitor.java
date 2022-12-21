@@ -24,12 +24,7 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         FileProperty fileProp = new FileProperty(file.toFile().length(), file.toFile().getName());
         files.putIfAbsent(fileProp, new ArrayList<Path>());
-        addToList(fileProp, file);
+        files.get(fileProp).add(file.toAbsolutePath());
         return FileVisitResult.CONTINUE;
-    }
-
-    private void addToList(FileProperty fileProp, Path file) {
-        List<Path> paths = files.get(fileProp);
-        paths.add(file.toAbsolutePath());
     }
 }
