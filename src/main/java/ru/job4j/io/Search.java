@@ -24,7 +24,10 @@ public class Search {
         if (args.length == 0) {
             throw new IllegalArgumentException("No arguments in main method was found");
         }
-        if (!".mkv".equals(args[1])) {
+        if (!args[0].startsWith("F")) {
+            throw new IllegalArgumentException("Wrong folder");
+        }
+        if (!args[1].startsWith(".")) {
             throw new IllegalArgumentException("No extension type was set");
         }
     }
