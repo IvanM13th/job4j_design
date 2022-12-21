@@ -13,7 +13,7 @@ public class ArgsName {
         return values.get(key);
     }
 
-    private void parse(String[] args) {
+    public void parse(String[] args) {
         for (var s : args) {
             String[] kv = s.split("=", 2);
             validateString(kv);
@@ -30,20 +30,20 @@ public class ArgsName {
         }
     }
 
-    public static ArgsName of(String[] args) {
+/*    public ArgsName of(String[] args) {
         if (args.length == 0) {
             throw new IllegalArgumentException();
         }
         ArgsName names = new ArgsName();
         names.parse(args);
         return names;
-    }
+    }*/
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         ArgsName jvm = ArgsName.of(new String[]{"-Xmx=512", "-encoding=UTF-8"});
         System.out.println(jvm.get("Xmx"));
 
         ArgsName zip = ArgsName.of(new String[]{"-out=project.zip", "-encoding=UTF-8"});
         System.out.println(zip.get("out"));
-    }
+    }*/
 }
