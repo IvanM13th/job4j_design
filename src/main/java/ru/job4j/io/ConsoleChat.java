@@ -29,19 +29,19 @@ public class ConsoleChat {
         do {
             humanSays = in.nextLine();
             logs.add(humanSays);
-            if (humanSays.equals(STOP)) {
+            if (STOP.equals(humanSays)) {
                 silence = true;
-            } else if (humanSays.equals(CONTINUE)) {
+            } else if (CONTINUE.equals(humanSays)) {
                 silence = false;
             }
 
-            if (!silence && !humanSays.equals(OUT)) {
+            if (!silence && !OUT.equals(humanSays)) {
                 botSays = phrases.get(rng.nextInt(phrases.size()));
                 System.out.println(botSays);
                 logs.add(botSays);
             }
 
-        } while (!humanSays.equals(OUT));
+        } while (!OUT.equals(humanSays));
         System.out.println(bye);
         logs.add(bye);
         saveLog(logs);
