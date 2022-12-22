@@ -34,19 +34,20 @@ public class Zip {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 3 || !args[0].startsWith("-d") || !args[1].startsWith("-e") || !args[2].startsWith("-o")) {
+        if (args.length != 3) {
             throw new IllegalArgumentException("Wrong arguments");
         }
-        ArgsName arg = new ArgsName();
-        arg.parse(args);
+        ArgsName arg = ArgsName.of(args);
         Path directory = Path.of(arg.get("d"));
-        if (!directory.toFile().exists()) {
+        if (!directory.toFile().exists() || !directory.toFile().isDirectory()) {
             throw new IllegalArgumentException();
+        }
+        if (!arg.get("o").endsWith(".zip")) {
+            throw new IllegalArgumentException("Not extension");
         }
         Zip zip = new Zip();
         Predicate<Path> cond = path -> !path.toFile().getName().endsWith(arg.get("e"));
-        Search searcher = new Search();
-        List<Path> l = searcher.search(directory, cond);
+        List<Path> l = Search.search(directory, cond);
         zip.packFiles(l, new File(arg.get("o")));
     }
 
