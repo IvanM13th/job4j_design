@@ -1,9 +1,6 @@
 package ru.job4j.io;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 public class ConsoleChat {
@@ -32,19 +29,19 @@ public class ConsoleChat {
         do {
             humanSays = in.nextLine();
             logs.add(humanSays);
-            if (humanSays.equals("стоп")) {
+            if (humanSays.equals(STOP)) {
                 silence = true;
-            } else if (humanSays.equals("продолжить")) {
+            } else if (humanSays.equals(CONTINUE)) {
                 silence = false;
             }
 
-            if (!silence && !humanSays.equals("закончить")) {
+            if (!silence && !humanSays.equals(OUT)) {
                 botSays = phrases.get(rng.nextInt(phrases.size()));
                 System.out.println(botSays);
                 logs.add(botSays);
             }
 
-        } while (!humanSays.equals("закончить"));
+        } while (!humanSays.equals(OUT));
         System.out.println(bye);
         logs.add(bye);
         saveLog(logs);
@@ -76,11 +73,16 @@ public class ConsoleChat {
         if (args.length != 2) {
             throw new IllegalArgumentException("Wrong arguments");
         }
+        File file = new File(args[1]);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File not found");
+        }
         for (var d : args) {
             if (!d.endsWith(".txt")) {
                 throw new IllegalArgumentException("Wrong file format");
             }
         }
+
         ConsoleChat cc = new ConsoleChat(args[0], args[1]);
         cc.run();
     }
