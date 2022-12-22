@@ -18,6 +18,9 @@ public class Search {
         if (!Path.of(args[0]).toFile().isDirectory()) {
             throw new IllegalArgumentException("Not a directory");
         }
+        if (!args[1].startsWith(".")) {
+            throw new IllegalArgumentException("Wrong format");
+        }
         Path start = Path.of(args[0]);
         search(start, path -> path.toFile().getName().endsWith(".mkv")).forEach(System.out::println);
 
