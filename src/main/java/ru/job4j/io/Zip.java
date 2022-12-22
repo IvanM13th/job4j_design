@@ -33,18 +33,22 @@ public class Zip {
         }
     }
 
+    private static void validate(Path dir, ArgsName ext) {
+        if (!dir.toFile().exists() || !dir.toFile().isDirectory()) {
+            throw new IllegalArgumentException();
+        }
+        if (!ext.get("o").endsWith(".zip")) {
+            throw new IllegalArgumentException("Not extension");
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         if (args.length != 3) {
             throw new IllegalArgumentException("Wrong arguments");
         }
         ArgsName arg = ArgsName.of(args);
         Path directory = Path.of(arg.get("d"));
-        if (!directory.toFile().exists() || !directory.toFile().isDirectory()) {
-            throw new IllegalArgumentException();
-        }
-        if (!arg.get("o").endsWith(".zip")) {
-            throw new IllegalArgumentException("Not extension");
-        }
+        validate(directory, arg);
         Zip zip = new Zip();
         Predicate<Path> cond = path -> !path.toFile().getName().endsWith(arg.get("e"));
         List<Path> l = Search.search(directory, cond);
