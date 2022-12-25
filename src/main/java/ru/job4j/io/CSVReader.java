@@ -1,16 +1,17 @@
 package ru.job4j.io;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.*;
 
 public class CSVReader {
-    public static void handle(ArgsName argsName) throws FileNotFoundException {
+    public static void handle(ArgsName argsName) {
         var file = Path.of(argsName.get("path")).toFile();
-        var target = Path.of(argsName.get("out"));
+        var target = "stdout".equals(argsName.get("out"))
+                ? Path.of("target.csv")
+                : Path.of(argsName.get("out"));
         Integer[] indexOf = getIndexes(argsName, file);
 
         try (PrintWriter print = new PrintWriter(target.toFile());
@@ -38,18 +39,49 @@ public class CSVReader {
         }
     }
 
-    private static Integer[] getIndexes(ArgsName argsName, File file) throws FileNotFoundException {
-        Scanner scanner = new Scanner(file);
-        String[] fields = scanner.nextLine().split(argsName.get("delimiter"));
-        List<String> filters = List.of(argsName.get("filter").split(","));
-        Integer[] indexes = new Integer[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            if (filters.contains(fields[i])) {
-                indexes[i] = filters.indexOf(fields[i]);
-            } else {
-                indexes[i] = -1;
+    private static Integer[] getIndexes(ArgsName argsName, File file) {
+        try (Scanner scanner = new Scanner(file)) {
+            String[] fields = scanner.nextLine().split(argsName.get("delimiter"));
+            List<String> filters = List.of(argsName.get("filter").split(","));
+            Integer[] indexes = new Integer[fields.length];
+            for (int i = 0; i < fields.length; i++) {
+                if (filters.contains(fields[i])) {
+                    indexes[i] = filters.indexOf(fields[i]);
+                } else {
+                    indexes[i] = -1;
+                }
             }
+            return indexes;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return indexes;
+        return new Integer[0];
+    }
+
+    private static void validate(String[] args, ArgsName argsName) {
+        if (args.length != 4) {
+            throw new IllegalArgumentException("Wrong arguments");
+        }
+        if (!Path.of(argsName.get("path")).toFile().exists()) {
+            throw new IllegalArgumentException("File does not exists");
+        }
+        if (!";".equals(argsName.get("delimiter"))) {
+            throw new IllegalArgumentException("Wrong delimiter");
+        }
+        Path p = "stdout".equals(argsName.get("out"))
+                ? Path.of("target.csv")
+                : Path.of(argsName.get("out"));
+        if (!p.toFile().exists()) {
+            throw new IllegalArgumentException("Wrong output directory");
+        }
+        if (argsName.get("filter").isBlank()) {
+            throw new IllegalArgumentException("Filters not found");
+        }
+    }
+
+    public static void main(String[] args) {
+        ArgsName argsName = ArgsName.of(args);
+        validate(args, argsName);
+        handle(argsName);
     }
 }
