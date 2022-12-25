@@ -8,19 +8,26 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class CSVReader {
-    public static void handle(ArgsName argsName) {
+    public static void handle(ArgsName argsName) throws FileNotFoundException {
         var file = Path.of(argsName.get("path")).toFile();
         var target = Path.of(argsName.get("out"));
+        Integer[] indexOf = getIndexes(argsName, file);
+
         try (PrintWriter print = new PrintWriter(target.toFile());
              Scanner scanner = new Scanner(file)) {
-            boolean[] filters = getFilters(argsName, file);
             StringBuilder string = new StringBuilder();
             while (scanner.hasNext()) {
                 String s = scanner.nextLine();
                 String[] spl = s.split(argsName.get("delimiter"));
+                String[] inOrder = new String[spl.length];
                 for (int i = 0; i < spl.length; i++) {
-                    if (filters[i]) {
-                        string.append(spl[i]).append(";");
+                    if (indexOf[i] >= 0) {
+                        inOrder[indexOf[i]] = spl[i];
+                    }
+                }
+                for (var str : inOrder) {
+                    if (str != null) {
+                        string.append(str).append(";");
                     }
                 }
                 print.println(string.substring(0, string.length() - 1));
@@ -29,17 +36,20 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private static boolean[] getFilters(ArgsName argsName, File file) throws FileNotFoundException {
+    private static Integer[] getIndexes(ArgsName argsName, File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
-        String firstLine = scanner.nextLine();
-        String[] fields = firstLine.split(argsName.get("delimiter"));
-        boolean[] filters = new boolean[fields.length];
-        for (int i = 0; i < filters.length; i++) {
-            filters[i] = argsName.get("filter").contains(fields[i]);
+        String[] fields = scanner.nextLine().split(argsName.get("delimiter"));
+        List<String> filters = List.of(argsName.get("filter").split(","));
+        Integer[] indexes = new Integer[fields.length];
+        for (int i = 0; i < fields.length; i++) {
+            if (filters.contains(fields[i])) {
+                indexes[i] = filters.indexOf(fields[i]);
+            } else {
+                indexes[i] = -1;
+            }
         }
-        return filters;
+        return indexes;
     }
 }
