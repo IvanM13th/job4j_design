@@ -10,7 +10,7 @@ public class CSVReader {
     public static void handle(ArgsName argsName) {
         var file = Path.of(argsName.get("path")).toFile();
         var target = "stdout".equals(argsName.get("out"))
-                ? Path.of("target.csv")
+                ? Path.of("plug.csv")
                 : Path.of(argsName.get("out"));
         Integer[] indexOf = getIndexes(argsName, file);
 
@@ -31,7 +31,12 @@ public class CSVReader {
                         string.append(str).append(";");
                     }
                 }
-                print.println(string.substring(0, string.length() - 1));
+                String toPrint = string.substring(0, string.length() - 1);
+                if (Path.of("plug.csv").equals(target)) {
+                    System.out.println(toPrint);
+                } else {
+                    print.println(toPrint);
+                }
                 string = new StringBuilder();
             }
         } catch (IOException e) {
@@ -40,6 +45,7 @@ public class CSVReader {
     }
 
     private static Integer[] getIndexes(ArgsName argsName, File file) {
+        Integer[] rsl = new Integer[0];
         try (Scanner scanner = new Scanner(file)) {
             String[] fields = scanner.nextLine().split(argsName.get("delimiter"));
             List<String> filters = List.of(argsName.get("filter").split(","));
@@ -51,11 +57,11 @@ public class CSVReader {
                     indexes[i] = -1;
                 }
             }
-            return indexes;
+            rsl = indexes;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new Integer[0];
+        return rsl;
     }
 
     private static void validate(String[] args, ArgsName argsName) {
