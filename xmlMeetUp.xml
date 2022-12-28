@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<team name="Barcelona" founded="1899" UCLwon="true">
+    <captain player="Busquets"/>
+            <players>
+                <player>Ter Stegen</player>
+                <player>Araujo</player>
+                <player>Alba</player>
+                <player>Christensen</player>
+                <player>Busquets</player>
+                <player>Pedri</player>
+                <player>Gavi</player>
+                <player>De Jong</player>
+                <player>Lewandowski</player>
+                <player>Dembele</player>
+            </players>
+</team>
