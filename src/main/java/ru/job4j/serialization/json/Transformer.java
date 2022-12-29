@@ -1,13 +1,24 @@
 package ru.job4j.serialization.json;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "transformer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Transformer {
-    private final boolean colorRed;
+    @XmlAttribute
+    private boolean colorRed;
+    @XmlAttribute
     private int weaponsCount;
-    private final String name;
+    private String name;
     private Team team;
+    @XmlElementWrapper(name = "visitedPlanets")
+    @XmlElement(name = "planet")
     private String[] visitedPlanets;
+
+    public Transformer() {
+
+    }
 
     public Transformer(boolean colorRed, int weaponsCount, String name, Team team, String[] visitedPlanets) {
         this.colorRed = colorRed;
