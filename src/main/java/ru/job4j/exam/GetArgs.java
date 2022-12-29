@@ -9,25 +9,18 @@ public class GetArgs {
 
     public static GetArgs getArgs(String[] args) {
         GetArgs getArgs = new GetArgs();
-        getArgs.validateArgs(args);
         getArgs.parse(args);
         return getArgs;
     }
 
-    private void validateArgs(String[] args) {
-        if (args.length != 4) {
-            throw new IllegalArgumentException("Not enough parameters");
-        }
+    private void validateLine(String[] args) {
         for (var line : args) {
-            if ("-".startsWith(line) || !line.contains("=")) {
+            if (args.length != 2 || args[0].isBlank() || args[1].isBlank()) {
+                throw new IllegalArgumentException("Key or value is empty");
+            }
+            if (!args[0].startsWith("-")) {
                 throw new IllegalArgumentException("Incorrect arguments format");
             }
-        }
-    }
-
-    private void validateLine(String[] line) {
-        if (line.length != 2 || line[1].isBlank()) {
-            throw new IllegalArgumentException("Wrong line format");
         }
     }
 
@@ -41,7 +34,7 @@ public class GetArgs {
 
     public String getParam(String key) {
         if (!params.containsKey(key)) {
-            throw new IllegalArgumentException("No such key");
+            throw new IllegalArgumentException("Key is not found");
         }
         return params.get(key);
     }
