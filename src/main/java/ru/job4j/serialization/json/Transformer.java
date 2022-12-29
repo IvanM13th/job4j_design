@@ -28,6 +28,26 @@ public class Transformer {
         this.visitedPlanets = visitedPlanets;
     }
 
+    public boolean isColorRed() {
+        return colorRed;
+    }
+
+    public int getWeaponsCount() {
+        return weaponsCount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public String[] getVisitedPlanets() {
+        return visitedPlanets;
+    }
+
     @Override
     public String toString() {
         return "Transformer{" + "colorRed=" + colorRed

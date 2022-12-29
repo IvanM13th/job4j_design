@@ -16,6 +16,10 @@ public class Team {
         this.team = team;
     }
 
+    public String getTeam() {
+        return team;
+    }
+
     @Override
     public String toString() {
         return team;
