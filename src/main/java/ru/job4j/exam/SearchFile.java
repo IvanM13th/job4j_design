@@ -13,11 +13,11 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class SearchFile extends SimpleFileVisitor<Path> {
 
-    private Predicate filter;
+    private final Predicate<String> filter;
 
     private final List<String> files = new ArrayList<>();
 
-    public SearchFile(Predicate filter) {
+    public SearchFile(Predicate<String> filter) {
         this.filter = filter;
     }
 
@@ -29,7 +29,7 @@ public class SearchFile extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         String fileName = file.toFile().getName();
         if (filter.test(fileName)) {
-            files.add(fileName);
+            files.add(file.toFile().getAbsolutePath());
         }
         return CONTINUE;
     }

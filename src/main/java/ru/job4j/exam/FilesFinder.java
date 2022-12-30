@@ -55,12 +55,28 @@ public class FilesFinder {
         }
     }
 
-    private static Predicate getPredicate(String type, String name) {
+    private static Predicate<String> getPredicate(String type, String name) {
         Predicate<String> rsl = null;
+        StringBuilder str = new StringBuilder();
         if ("name".equals(type)) {
             rsl = name::equals;
         } else if ("mask".equals(type)) {
-            rsl = s -> s.contains(name);
+            for (char c : name.toCharArray()) {
+                String smbl = String.valueOf(c);
+                if ("*".equals(smbl)) {
+                    smbl = "\\w+";
+                }
+                if ("?".equals(smbl)) {
+                    smbl = "\\w?";
+                }
+                if (".".equals(smbl)) {
+                    smbl = "\\.";
+                }
+                str.append(smbl);
+            }
+            Pattern p = Pattern.compile(str.toString());
+            rsl = p.asPredicate();
+
         } else if ("regex".equals(type)) {
             Pattern p = Pattern.compile(name);
             rsl = p.asPredicate();

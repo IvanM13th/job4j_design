@@ -14,14 +14,12 @@ public class GetArgs {
     }
 
     private void validateLine(String[] args) {
-        for (var line : args) {
             if (args.length != 2 || args[0].isBlank() || args[1].isBlank()) {
                 throw new IllegalArgumentException("Key or value is empty");
             }
             if (!args[0].startsWith("-")) {
                 throw new IllegalArgumentException("Incorrect arguments format");
             }
-        }
     }
 
     private void parse(String[] args) {
