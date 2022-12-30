@@ -21,8 +21,8 @@ public class FilesFinder {
         String type = getArgs.getParam("t");
 
         validateParams(path, out, type);
-        Predicate<String> filter = getPredicate(type, name);
 
+        Predicate<String> filter = getPredicate(type, name);
         List<String> f = files(path, filter);
         logWriter(f, out.toString());
     }
@@ -57,24 +57,11 @@ public class FilesFinder {
 
     private static Predicate<String> getPredicate(String type, String name) {
         Predicate<String> rsl = null;
-        StringBuilder str = new StringBuilder();
         if ("name".equals(type)) {
             rsl = name::equals;
         } else if ("mask".equals(type)) {
-            for (char c : name.toCharArray()) {
-                String smbl = String.valueOf(c);
-                if ("*".equals(smbl)) {
-                    smbl = "\\w+";
-                }
-                if ("?".equals(smbl)) {
-                    smbl = "\\w?";
-                }
-                if (".".equals(smbl)) {
-                    smbl = "\\.";
-                }
-                str.append(smbl);
-            }
-            Pattern p = Pattern.compile(str.toString());
+            name = name.replace(".", "[.]").replace("*", ".*").replace("?", ".");
+            Pattern p = Pattern.compile(name);
             rsl = p.asPredicate();
 
         } else if ("regex".equals(type)) {
@@ -83,5 +70,6 @@ public class FilesFinder {
         }
         return rsl;
     }
+
 }
 
