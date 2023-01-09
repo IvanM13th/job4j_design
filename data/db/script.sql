@@ -1,4 +1,4 @@
-create table people(
+create table people (
 id serial primary key,
 name varchar(255),
 city text,
@@ -16,4 +16,3 @@ where name = 'Anna';
 
 delete from people
 where name = 'Dmitriy';
-
