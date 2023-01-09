@@ -24,7 +24,6 @@ public class FilesFinder {
         Predicate<String> filter = getPredicate(type, name);
 
        List<String> f = files(path, s -> Path.of(s).toFile().length() / 1024 / 1024  > 500);
-       // List<String> f = files(path, filter);
         f.sort(new SizeComparison());
         logWriter(f, out.toString());
     }
