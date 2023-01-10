@@ -5,14 +5,14 @@ values ('samsung tv', 45000),
         ('xbox', 24000),
         ('laptop', 38000);
 
-insert into peeople (name)
+insert into people (name)
 values ('Ivan'),
         ('Sergei'),
         ('Dmitriy'),
         ('Anna'),
         ('Egor');
 
-insert into devices_people (devive_id, people_id)
+insert into devices_people (device_id, people_id)
 values (1,1),
         (1,3),
         (1,5),
