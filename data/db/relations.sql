@@ -28,5 +28,5 @@ contract_number int
 create table contracts (
 id serial primary key,
 name varchar(255),
-contract_id int references contract(id)
+contract_id int references contract(id) unique
 );
