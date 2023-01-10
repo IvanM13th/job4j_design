@@ -29,26 +29,26 @@ values ('Ivan', 1),
 		('Alex', 4),
 		('Leonid', 4);
 
-3. Используя left join найти департаменты, у которых нет работников
+--3. Используя left join найти департаменты, у которых нет работников
 select d.name, count(e.department_id)
 from departments d
 left join employees e using (department_id)
 group by d.name
 having count(e.department_id) < 1;
 
-4. Используя left и right join написать запросы,
-которые давали бы одинаковый результат (порядок вывода колонок в эти запросах также должен быть идентичный).
+--4. Используя left и right join написать запросы,
+--которые давали бы одинаковый результат (порядок вывода колонок в эти запросах также должен быть идентичный).
 select e.name, d.name
 from departments d
 left join employees e using (department_id)
-where e.name is not null
+where e.name is not null;
 
 select e.name, d.name
 from departments d
-right join employees e using (department_id)
+right join employees e using (department_id);
 
-5. Создать таблицу teens с атрибутами name, gender и заполнить ее.
-Используя cross join составить все возможные разнополые пары
+--5. Создать таблицу teens с атрибутами name, gender и заполнить ее.
+--Используя cross join составить все возможные разнополые пары
 create table teens (
 id serial primary key,
 name varchar(255),
@@ -69,4 +69,4 @@ values ('Alex', 'M'),
 select t1.name as a, t2.name as b
 from teens t1
 cross join teens t2
-where t1.gender <> t2.gender
+where t1.gender <> t2.gender;
