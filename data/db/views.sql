@@ -51,18 +51,18 @@ insert into orders (book_id, client_id) values (2, 2);
 insert into orders (book_id, client_id) values (2, 1);
 insert into orders (book_id, client_id) values (5, 1);
 
-Написать запрос, который выведет наименование книги, автора, клиента и город отправки,
-в котором автор начинается с буквы А и город с буквы Ч
+--Написать запрос, который выведет наименование книги, автора, клиента и город отправки,
+--в котором автор начинается с буквы А и город с буквы Ч
 select b.name as Книга, a.name as Автор, cl.name as Клиент, c.name as Город_отправки
 from orders o
 join books b using (book_id)
 join authors a using (author_id)
 join clients cl using (client_id)
 join cities c using (city_id)
-where a.name like 'А%' and c.name like 'Ч%'
+where a.name like 'А%' and c.name like 'Ч%';
 
 
-Создаем Представление
+--Создаем Представление
 create view temp_table
 	as select b.name as Книга, a.name as Автор, cl.name as Клиент, c.name as Город_отправки
 		from orders o
@@ -70,7 +70,7 @@ create view temp_table
 		join authors a using (author_id)
 		join clients cl using (client_id)
 		join cities c using (city_id)
-		where a.name like 'А%' and c.name like 'Ч%'
+		where a.name like 'А%' and c.name like 'Ч%';
 
-Выборка из представления
-select * from temp_table
+--Выборка из представления
+select * from temp_table;
