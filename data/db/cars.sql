@@ -64,30 +64,27 @@ values ('solaris', 1, 2, 1),
 	('jazz', 5, 1, 3),
 	('jazz', 5, 2, 1);
 
-Вывести список всех машин и все привязанные к ним детали.
+--Вывести список всех машин и все привязанные к ним детали.
 select c.car_id as id, c.name, b.name, e.name, t.name
 from cars c
 left join car_bodies b using (body_id)
 left join car_engines e using (engine_id)
 left join car_transmissions t using (transmission_id)
 
-Вывести кузовы, которые не используются НИ в одной машине.
-select b.name, count(c.body_id) as количество
-from cars c
-right join car_bodies b using (body_id)
-group by b.name
-having count(c.body_id) = 0
+--Вывести кузовы, которые не используются НИ в одной машине.
+select b.name
+from car_bodies b
+left join cars c using (body_id)
+where c.body_id is null
 
-Вывести двигатели, которые не используются НИ в одной машине, аналогично п.2;
-select e.name, count(c.engine_id) as количество
-from cars c
-right join car_engines e using (engine_id)
-group by e.name
-having count(c.engine_id) = 0
+--Вывести двигатели, которые не используются НИ в одной машине, аналогично п.2;
+select e.name
+from car_engines e
+left join cars c using (engine_id)
+where c.engine_id is null
 
-Вывести коробки передач, которые не используются НИ в одной машине, аналогично п.2.
-select t.name, count(t.transmission_id) as количество
-from cars c
-right join car_transmissions t using(transmission_id)
-group by t.name
-having count(t.transmission_id) = 0
+--Вывести коробки передач, которые не используются НИ в одной машине, аналогично п.2.
+select t.name
+from car_transmissions t
+left join cars c using (transmission_id)
+where c.transmission_id is null
