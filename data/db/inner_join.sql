@@ -3,6 +3,10 @@ id serial primary key,
 title varchar(255),
 author_id int references authors(id));
 
+create table authors (
+id serial primary key,
+author varchar(255));
+
 insert into authors (author)
 values ('Джо Аберкромби'), ('Брендон Сандерсон'), ('Борис Акунин'), ('Дмитрий Глуховский');
 
