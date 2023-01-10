@@ -24,8 +24,9 @@ create table states (
 id serial primary key,
 state varchar(50));
 
-create table items_by_users (
+create table item (
 id serial primary key,
+name varchar(255),
 user_id int references users(id));
 
 create table items (
