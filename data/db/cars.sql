@@ -1,6 +1,7 @@
 create table car_bodies (
 body_id serial primary key,
-name varchar(255));
+name varchar(255)
+);
 
 insert into car_bodies (name)
 values ('Sedan'),
@@ -8,18 +9,21 @@ values ('Sedan'),
 	('Crossover'),
 	('Jeep'),
 	('Short'),
-	('lowdrive');
+	('lowdrive')
+;
 
 create table car_engines (
 engine_id serial primary key,
-name varchar(255));
+name varchar(255)
+);
 
 insert into car_engines (name)
 values ('1.0V'),
 	('1.6V'),
 	('2.2V'),
 	('2.8V'),
-	('4V');
+	('4V')
+;
 
 
 create table car_transmissions (
@@ -29,14 +33,16 @@ name varchar(255));
 insert into car_transmissions (name)
 values ('mechanic'),
 	('auto'),
-	('robot');
+	('robot')
+;
 
 create table cars (
 car_id serial primary key,
 name varchar(255),
 body_id int references car_bodies(body_id),
 engine_id int references car_engines(engine_id),
-transmission_id int references car_transmissions(transmission_id));
+transmission_id int references car_transmissions(transmission_id)
+);
 
 
 insert into cars (name, body_id, engine_id, transmission_id)
@@ -62,7 +68,8 @@ values ('solaris', 1, 2, 1),
 	('jazz', 5, 1, 1),
 	('jazz', 5, 1, 2),
 	('jazz', 5, 1, 3),
-	('jazz', 5, 2, 1);
+	('jazz', 5, 2, 1)
+	;
 
 --Вывести список всех машин и все привязанные к ним детали.
 select c.car_id as id, c.name, b.name, e.name, t.name
@@ -70,21 +77,25 @@ from cars c
 left join car_bodies b using (body_id)
 left join car_engines e using (engine_id)
 left join car_transmissions t using (transmission_id)
+;
 
 --Вывести кузовы, которые не используются НИ в одной машине.
 select b.name
 from car_bodies b
 left join cars c using (body_id)
 where c.body_id is null
+;
 
 --Вывести двигатели, которые не используются НИ в одной машине, аналогично п.2;
 select e.name
 from car_engines e
 left join cars c using (engine_id)
 where c.engine_id is null
+;
 
 --Вывести коробки передач, которые не используются НИ в одной машине, аналогично п.2.
 select t.name
 from car_transmissions t
 left join cars c using (transmission_id)
 where c.transmission_id is null
+;
