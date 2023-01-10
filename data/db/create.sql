@@ -24,6 +24,10 @@ create table states (
 id serial primary key,
 state varchar(50));
 
+create table items_by_users (
+id serial primary key,
+user_id int references users(id));
+
 create table items (
 id serial primary key,
 number int,
@@ -37,7 +41,7 @@ item_id int references items(id));
 
 create table attachs (
 id serial primary key,
-attachm bytea,
+description text,
 item_id int references items(id));
 
 
