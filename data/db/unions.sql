@@ -41,12 +41,6 @@ from movie;
 --  выведите все уникальные названия произведений из таблиц movie и book
 --(т.е фильмы, которые сняты не по книге, и книги без экранизации)
 (select name from movie
-union all
-select title from book)
-
-except
-
-(select name from movie
 intersect
 select title from book)
 union
