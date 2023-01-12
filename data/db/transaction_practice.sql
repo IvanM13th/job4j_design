@@ -1,6 +1,7 @@
 create table clothes (
 id serial primary key,
-name varchar(255)
+name varchar(255),
+count int
 );
 
 insert into clothes (name, count) values ('jeans', 1);
