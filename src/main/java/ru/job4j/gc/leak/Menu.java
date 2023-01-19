@@ -5,17 +5,17 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public static final Integer ADD_POST = 1;
-    public static final Integer ADD_MANY_POST = 2;
-    public static final Integer SHOW_ALL_POSTS = 3;
-    public static final Integer DELETE_POST = 4;
+    private static final Integer ADD_POST = 1;
+    private static final Integer ADD_MANY_POST = 2;
+    private static final Integer SHOW_ALL_POSTS = 3;
+    private static final Integer DELETE_POST = 4;
 
-    public static final String SELECT = "Выберите меню";
-    public static final String COUNT = "Выберите количество создаваемых постов";
-    public static final String TEXT_OF_POST = "Введите текст";
-    public static final String EXIT = "Конец работы";
+    private static final String SELECT = "Выберите меню";
+    private static final String COUNT = "Выберите количество создаваемых постов";
+    private static final String TEXT_OF_POST = "Введите текст";
+    private static final String EXIT = "Конец работы";
 
-    public static final String MENU = """
+    private static final String MENU = """
                 Введите 1 для создание поста.
                 Введите 2, чтобы создать определенное количество постов.
                 Введите 3, чтобы показать все посты.
