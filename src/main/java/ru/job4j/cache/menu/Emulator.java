@@ -43,9 +43,13 @@ public class Emulator extends DirFileCache {
                     emulator.put(fileName, emulator.load(fileName));
                 }
             } else if (choice == GET_FROM_CASH) {
-                if (!"".equals(fileName)) {
-                    System.out.println(emulator.get(fileName));
+                String rsl = emulator.get(fileName);
+                while (rsl == null) {
+                    emulator.put(fileName, emulator.load(fileName));
+                    rsl = emulator.get(fileName);
                 }
+                System.out.println(rsl);
+
             } else {
                 run = false;
                 System.out.println(EXIT);
