@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class Menu {
 
-    private static final Integer ADD_POST = 1;
-    private static final Integer ADD_MANY_POST = 2;
-    private static final Integer SHOW_ALL_POSTS = 3;
-    private static final Integer DELETE_POST = 4;
+    private static final int ADD_POST = 1;
+    private static final int ADD_MANY_POST = 2;
+    private static final int SHOW_ALL_POSTS = 3;
+    private static final int DELETE_POST = 4;
 
     private static final String SELECT = "Выберите меню";
     private static final String COUNT = "Выберите количество создаваемых постов";
