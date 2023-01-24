@@ -100,6 +100,7 @@ public class Cinema3DTest {
         Cinema cinema = new Cinema3D();
         Account account = new AccountCinema();
         Calendar date = Calendar.getInstance();
+        Ticket ticket = cinema.buy(account, 1, 1, date);
         assertThatThrownBy(() -> cinema.buy(account, 1, 1, date))
                 .isInstanceOf(IllegalArgumentException.class);
     }
