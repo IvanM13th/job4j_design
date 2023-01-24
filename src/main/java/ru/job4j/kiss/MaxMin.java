@@ -15,6 +15,7 @@ public class MaxMin {
     }
 
     public <T> T compare(List<T> list, BiPredicate<T, T> predicate) {
+        validate(list);
         T rsl = list.get(0);
         for (var value : list) {
             if (predicate.test(rsl, value)) {
@@ -29,4 +30,5 @@ public class MaxMin {
             throw new IllegalArgumentException("List is empty");
         }
     }
+
 }
