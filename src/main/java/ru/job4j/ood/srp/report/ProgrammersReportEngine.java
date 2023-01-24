@@ -2,24 +2,26 @@ package ru.job4j.ood.srp.report;
 
 import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
-import ru.job4j.ood.srp.store.MemStore;
-import ru.job4j.ood.srp.tools.CSVWriter;
+import ru.job4j.ood.srp.store.Store;
+import ru.job4j.ood.srp.tools.FileWriter;
 
 import java.io.File;
 import java.util.Calendar;
 import java.util.function.Predicate;
 
 public class ProgrammersReportEngine implements Report {
-    private final MemStore store;
+    private final Store store;
 
     private final DateTimeParser<Calendar> dateTimeParser;
 
     private final File targetDir;
+    private final FileWriter fileWriter;
 
-    public ProgrammersReportEngine(MemStore store, DateTimeParser<Calendar> dateTimeParser, File targetDir) {
+    public ProgrammersReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, File targetDir, FileWriter fileWriter) {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         this.targetDir = targetDir;
+        this.fileWriter = fileWriter;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class ProgrammersReportEngine implements Report {
                     .append(employee.getSalary())
                     .append(System.lineSeparator());
         }
-        new CSVWriter().saveToFile(targetDir, text.toString());
+        fileWriter.saveToFile(targetDir, text.toString());
         return text.toString();
     }
 }

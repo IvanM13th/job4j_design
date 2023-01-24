@@ -1,7 +1,7 @@
 package ru.job4j.ood.srp.report;
 
 import ru.job4j.ood.srp.currency.Currency;
-import ru.job4j.ood.srp.currency.InMemoryCurrencyConverter;
+import ru.job4j.ood.srp.currency.CurrencyConverter;
 import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.Store;
@@ -13,11 +13,11 @@ public class AccountingReportEngine implements Report {
     private final Store store;
     private final DateTimeParser<Calendar> dateTimeParser;
 
-    private final InMemoryCurrencyConverter currencyConverter;
+    private final CurrencyConverter currencyConverter;
     private final Currency sourceCurrency;
     private final Currency targetCurrency;
 
-    public AccountingReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, InMemoryCurrencyConverter currencyConverter, Currency sourceCurrency, Currency targetCurrency) {
+    public AccountingReportEngine(Store store, DateTimeParser<Calendar> dateTimeParser, CurrencyConverter currencyConverter, Currency sourceCurrency, Currency targetCurrency) {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         this.currencyConverter = currencyConverter;
