@@ -1,9 +1,10 @@
 package ru.job4j.cache.menu;
 
 import ru.job4j.cache.DirFileCache;
+
 import java.util.Scanner;
 
-public class Emulator extends DirFileCache {
+public class Emulator {
 
     private static final int SET_FILE = 1;
     private static final int PUT_TO_CASH = 2;
@@ -17,17 +18,13 @@ public class Emulator extends DirFileCache {
                 Введите любое другое число для выхода.
             """;
 
-    public Emulator(String cachingDir) {
-        super(cachingDir);
-    }
-
     public static void main(String[] args) {
         boolean run = true;
         String fileName = "";
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите директорию");
         String directory = scanner.nextLine();
-        Emulator emulator = new Emulator(directory);
+        DirFileCache dirFileCache = new DirFileCache(directory);
         while (run) {
             System.out.println(MENU);
             System.out.println(SELECT);
@@ -40,16 +37,11 @@ public class Emulator extends DirFileCache {
             } else if (choice == PUT_TO_CASH) {
                 System.out.println("Добавляю данные в кэш");
                 if (!"".equals(fileName)) {
-                    emulator.put(fileName, emulator.load(fileName));
+                    dirFileCache.get(fileName);
                 }
             } else if (choice == GET_FROM_CASH) {
-                String rsl = emulator.get(fileName);
-                while (rsl == null) {
-                    emulator.put(fileName, emulator.load(fileName));
-                    rsl = emulator.get(fileName);
-                }
+                String rsl = dirFileCache.get(fileName);
                 System.out.println(rsl);
-
             } else {
                 run = false;
                 System.out.println(EXIT);
