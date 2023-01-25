@@ -18,11 +18,10 @@ public class References {
 
         SoftReference<MyObject> softReference = new SoftReference<>(o);
 
-        /**        //мы потеряли оригинальную ссылку, но можем вытащить его через weakReference
-         //объект о хранится в объекте weakReference
-         //удалится при первом GC
-         //удобно для кэша
-         *
+        /** мы потеряли оригинальную ссылку, но можем вытащить его через weakReference
+         * объект о хранится в объекте weakReference
+         * удалится при первом GC
+         * удобно для кэша
          */
 
         WeakReference<MyObject> weakReference = new WeakReference<MyObject>(o);
