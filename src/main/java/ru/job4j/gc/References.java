@@ -10,17 +10,21 @@ import java.util.List;
 public class References {
     public static void main(String[] args) throws InterruptedException {
 
-        //strong references, не может быть собрана GC
-        //существует, пока не действует метод или не занулена ссылка
+        /**       strong references, не может быть собрана GC
+         *существует, пока не действует метод или не занулена ссылка
+         *
+         */
         MyObject o = new MyObject();
 
-        //не будет удалена GC пока не будет проблем с памятью
         SoftReference<MyObject> softReference = new SoftReference<>(o);
 
-        //мы потеряли оригинальную ссылку, но можем вытащить его через weakReference
-        //объект о хранится в объекте weakReference
-        //удалится при первом GC
-        //удобно для кэша
+        /**        //мы потеряли оригинальную ссылку, но можем вытащить его через weakReference
+         //объект о хранится в объекте weakReference
+         //удалится при первом GC
+         //удобно для кэша
+         *
+         */
+
         WeakReference<MyObject> weakReference = new WeakReference<MyObject>(o);
 
         ReferenceQueue<MyObject> referenceQueue = new ReferenceQueue<>();
@@ -44,23 +48,6 @@ public class References {
         System.out.println(weakReference.get());
         System.out.println(phantomReference.get());
 
-        // ВСЕГДА вернет null
-        //referenceQueue.remove();
-
-/*        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    referenceQueue.remove();
-                    System.out.println("reference was removed");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-        System.out.println("start");
-        System.gc();
-        System.out.println("gc was started");*/
     }
 
     static class MyObject {
