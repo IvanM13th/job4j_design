@@ -2,11 +2,14 @@ package ru.job4j.ood.lcp.foodstore.store;
 
 import ru.job4j.ood.lcp.foodstore.model.Food;
 
-import java.util.List;
-
 public interface Store {
 
-    void add(Food food);
+    boolean add(Food food);
 
-    List<Food> getProducts();
+    boolean delete(Food food);
+
+    boolean replace(Food oldValue, Food newValue);
+
+    Food findByName(String name);
+
 }

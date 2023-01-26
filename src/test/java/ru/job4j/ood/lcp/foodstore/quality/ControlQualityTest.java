@@ -43,21 +43,21 @@ public class ControlQualityTest {
         Warehouse warehouse = new Warehouse();
         Trash trash = new Trash();
         Map<String, Store> stores = new HashMap<>();
-                stores.put("Shop", shop);
+        stores.put("Shop", shop);
         stores.put("Warehouse", warehouse);
         stores.put("Trash", trash);
         DateChecker dateChecker = new DateChecker();
         ControlQuality controlQuality = new ControlQuality(stores, dateChecker);
 
-        controlQuality.sendToStore(milk);
-        controlQuality.sendToStore(coffee);
-        controlQuality.sendToStore(tea);
-        controlQuality.sendToStore(banana);
+        controlQuality.sendTo(milk);
+        controlQuality.sendTo(coffee);
+        controlQuality.sendTo(tea);
+        controlQuality.sendTo(banana);
 
-        assertThat(stores.get("Shop").getProducts()).contains(milk);
+        assertThat(shop.getProducts()).contains(milk);
         assertThat(shop.getProducts().get(0).getPrice()).isEqualTo(95);
-        assertThat(stores.get("Shop").getProducts()).contains(tea);
-        assertThat(stores.get("Warehouse").getProducts()).contains(coffee);
-        assertThat(stores.get("Trash").getProducts()).contains(banana);
+        assertThat(shop.getProducts()).contains(tea);
+        assertThat(warehouse.getProducts()).contains(coffee);
+        assertThat(trash.getProducts()).contains(banana);
     }
 }
