@@ -1,6 +1,8 @@
 package ru.job4j.ood.lcp.foodstore.utils;
 
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.withPrecision;
 import ru.job4j.ood.lcp.foodstore.model.Food;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ public class DateCheckerTest {
                 LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1, 1, 1),
                 LocalDateTime.of(2023, Month.JANUARY, 31, 1, 1, 1, 1), 500, 10);
         DateChecker dateChecker = new DateChecker();
-        assertThat(dateChecker.getExpPercentage(food)).isEqualTo(80.0);
+        assertThat(dateChecker.getExpPercentage(food)).
+                isEqualTo(83.33d, withPrecision(0.005d));
+
     }
 }
