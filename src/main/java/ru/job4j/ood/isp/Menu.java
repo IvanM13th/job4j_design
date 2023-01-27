@@ -68,5 +68,4 @@ public interface Menu extends Iterable<Menu.MenuItemInfo> {
             return Objects.hash(name, children,  number);
         }
     }
-
 }
