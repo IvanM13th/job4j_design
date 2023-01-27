@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@XmlRootElement(name = "employees")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class MemStore implements Store {
-   @XmlElement(name = "worker")
     private final List<Employee> employees = new ArrayList<>();
 
     @Override
@@ -25,9 +22,5 @@ public class MemStore implements Store {
     @Override
     public List<Employee> findBy(Predicate<Employee> filter) {
         return employees.stream().filter(filter).collect(Collectors.toList());
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
     }
 }

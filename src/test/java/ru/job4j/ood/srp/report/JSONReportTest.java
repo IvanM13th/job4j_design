@@ -7,7 +7,9 @@ import ru.job4j.ood.srp.formatter.ReportDateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
 import ru.job4j.ood.srp.store.MemStore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,20 +18,27 @@ public class JSONReportTest {
     public void whenJSONReport() {
         MemStore memStore = new MemStore();
         Calendar date = Calendar.getInstance();
-        ReportDateTimeParser parser = new ReportDateTimeParser();
+        Date stringDate = date.getTime();
         Employee worker = new Employee("Ivan", date, date, 100000);
         memStore.add(worker);
         Gson gson = new GsonBuilder().create();
-        JSONReport engine = new JSONReport(memStore, parser, gson);
-        StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
-                .append(System.lineSeparator())
-                .append(worker.getName()).append(" ")
-                .append(parser.parse(worker.getHired())).append(" ")
-                .append(parser.parse(worker.getFired())).append(" ")
-                .append(worker.getSalary())
-                .append(System.lineSeparator());
-        String toJson = gson.toJson(expect);
-        assertThat(engine.generate(em -> true)).isEqualTo(toJson);
+        JSONReport engine = new JSONReport(memStore, gson);
+        assertThat(engine.generate(em -> true)).isEqualTo(String.format(
+                "[{\"name\":\"Ivan\","
+                        + "\"hired\":{\"year\":%s,\"month\":0,\"dayOfMonth\":%s,\"hourOfDay\":%s,\"minute\":%s,\"second\":%s},"
+                        + "\"fired\":{\"year\":%s,\"month\":0,\"dayOfMonth\":%s,\"hourOfDay\":%s,\"minute\":%s,\"second\":%s},"
+                        + "\"salary\":100000.0}]",
+                2023,
+                stringDate.getDate(),
+                stringDate.getHours(),
+                stringDate.getMinutes(),
+                stringDate.getSeconds(),
+                2023,
+                stringDate.getDate(),
+                stringDate.getHours(),
+                stringDate.getMinutes(),
+                stringDate.getSeconds()
+                )
+        );
     }
 }

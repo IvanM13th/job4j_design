@@ -1,40 +1,41 @@
 package ru.job4j.ood.srp.report;
 
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import ru.job4j.ood.srp.formatter.ReportDateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
-import ru.job4j.ood.srp.model.Employees;
 import ru.job4j.ood.srp.store.MemStore;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class XMLReportTest {
 
     @Test
-    public void whenXMLReport() throws JAXBException {
+    public void whenXMLReport() throws JAXBException, ParseException {
         MemStore memStore = new MemStore();
         Calendar date = Calendar.getInstance();
-        ReportDateTimeParser parser = new ReportDateTimeParser();
+        Date stringDate = date.getTime();
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(stringDate);
         Employee worker = new Employee("Ivan", date, date, 150000);
-        Employee worker2 = new Employee("Petr", date, date, 110000);
-        Employee worker3 = new Employee("Darya", date, date, 130000);
-        Employees workers = new Employees(memStore.getEmployees());
         memStore.add(worker);
-        memStore.add(worker2);
-        memStore.add(worker3);
-        JAXBContext context = JAXBContext.newInstance(Employees.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        StringWriter writer = new StringWriter();
-
-        XMLReport engine = new XMLReport(memStore, parser, marshaller, writer, workers);
-        marshaller.marshal(workers, writer);
-        assertThat(engine.generate(em -> true)).isEqualTo(writer.toString());
+        XMLReport engine = new XMLReport(memStore);
+        assertThat(engine.generate(em -> true)).isEqualTo(String.format(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                        + "<employees>"
+                        + "<employeeList name=\"Ivan\" "
+                        + "hired=\"%s\" "
+                        + "fired=\"%s\" "
+                        + "salary=\"150000.0\"/>"
+                        + "</employees>", formattedDate, formattedDate));
     }
 }
