@@ -1,6 +1,5 @@
 package ru.job4j.ood.lcp.carparking;
 
-import ru.job4j.kiss.Parent;
 import ru.job4j.ood.lcp.carparking.model.Car;
 import ru.job4j.ood.lcp.carparking.parking.Parking;
 
