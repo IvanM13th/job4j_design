@@ -1,8 +1,9 @@
 package ru.job4j.ood.lcp.carparking.model;
 
-public class PassengerCar extends AbstractCar {
+public class PassengerCar extends Vehicle {
 
-    public PassengerCar(String type, int id) {
-        super(type, id);
+    public PassengerCar(int regNumber) {
+        super(regNumber);
     }
+
 }
