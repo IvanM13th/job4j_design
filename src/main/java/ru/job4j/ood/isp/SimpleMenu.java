@@ -8,50 +8,42 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        boolean rsl = false;
+        if (!childrenNotExist(childName)) {
+            throw new IllegalArgumentException("Children already exists, choose another name");
+        }
         if (Objects.equals(parentName, Menu.ROOT)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
-            rsl = true;
         } else {
             Optional<ItemInfo> itemInfo = findItem(parentName);
+            if (itemInfo.isEmpty()) {
+                throw new IllegalArgumentException("Parent was not found");
+            }
             itemInfo.ifPresent(info -> info.menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate)));
-            rsl = true;
         }
-        return rsl;
+        return true;
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<MenuItemInfo> menuItemInfo = Optional.empty();
         Optional<ItemInfo> itemInfo = findItem(itemName);
-        if (itemInfo.isPresent()) {
-            menuItemInfo = Optional.of(new MenuItemInfo(
-                    itemInfo.get().menuItem,
-                    itemInfo.get().number));
+        if (itemInfo.isEmpty()) {
+            throw new IllegalArgumentException("Item not found");
         }
-        return menuItemInfo;
+        return findItem(itemName).map(i -> new MenuItemInfo(itemInfo.get().menuItem, itemInfo.get().number));
     }
 
     @Override
     public Iterator<MenuItemInfo> iterator() {
-        List<ItemInfo> list = new ArrayList<>();
         DFSIterator dfsIterator = new DFSIterator();
-        while (dfsIterator.hasNext()) {
-            list.add(dfsIterator.next());
-        }
-
         return new Iterator<>() {
-            final Iterator<ItemInfo> items = list.iterator();
-            ItemInfo itemInfo = null;
-
             @Override
             public boolean hasNext() {
-                return items.hasNext();
+                return dfsIterator.hasNext();
             }
 
             @Override
             public MenuItemInfo next() {
-                itemInfo = items.next();
+                ItemInfo itemInfo = dfsIterator.next();
                 return new MenuItemInfo(itemInfo.menuItem, itemInfo.number);
             }
         };
@@ -148,14 +140,7 @@ public class SimpleMenu implements Menu {
 
     }
 
-    public List<MenuItem> getRootElements() {
-        return rootElements;
-    }
-
-    public class OutPrinter implements MenuPrinter {
-
-        @Override
-        public void print(Menu menu) {
-        }
+    private boolean childrenNotExist(String childName) {
+        return findItem(childName).isEmpty();
     }
 }

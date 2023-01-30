@@ -1,6 +1,6 @@
 package ru.job4j.ood.isp;
 
-import org.checkerframework.checker.units.qual.C;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,7 +14,6 @@ public class SimpleMenuTest {
     @Test
     public void whenAddThenReturnSame() {
         Menu menu = new SimpleMenu();
-        ConsoleOutput out = new ConsoleOutput();
         menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
         menu.add(Menu.ROOT, "Покормить собаку", STUB_ACTION);
         menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
@@ -31,6 +30,5 @@ public class SimpleMenuTest {
                 "Покормить собаку", List.of(), STUB_ACTION, "2."))
                 .isEqualTo(menu.select("Покормить собаку").get());
         menu.forEach(i -> System.out.println(i.getNumber() + i.getName()));
-        out.print(menu);
     }
 }
