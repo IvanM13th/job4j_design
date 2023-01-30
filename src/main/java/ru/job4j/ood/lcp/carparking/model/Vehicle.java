@@ -1,6 +1,6 @@
 package ru.job4j.ood.lcp.carparking.model;
 
-public class Vehicle {
+public abstract class Vehicle {
 
     protected int regNumber;
 
