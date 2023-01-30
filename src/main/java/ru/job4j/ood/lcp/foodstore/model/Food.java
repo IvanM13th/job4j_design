@@ -3,7 +3,7 @@ package ru.job4j.ood.lcp.foodstore.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Food {
+public abstract class Food {
     private String name;
     private LocalDateTime createDate;
     private LocalDateTime expiryDate;
@@ -30,16 +30,8 @@ public class Food {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
     public LocalDateTime getExpiryDate() {
         return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDateTime expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public double getPrice() {
@@ -54,10 +46,6 @@ public class Food {
         return discount;
     }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -67,7 +55,11 @@ public class Food {
             return false;
         }
         Food food = (Food) o;
-        return Double.compare(food.price, price) == 0 && discount == food.discount && Objects.equals(name, food.name) && Objects.equals(createDate, food.createDate) && Objects.equals(expiryDate, food.expiryDate);
+        return Double.compare(food.price, price) == 0
+                && discount == food.discount
+                && Objects.equals(name, food.name)
+                && Objects.equals(createDate, food.createDate)
+                && Objects.equals(expiryDate, food.expiryDate);
     }
 
     @Override

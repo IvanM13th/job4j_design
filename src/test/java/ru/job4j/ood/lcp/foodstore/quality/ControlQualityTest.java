@@ -1,58 +1,57 @@
 package ru.job4j.ood.lcp.foodstore.quality;
 
 import org.junit.jupiter.api.Test;
-import ru.job4j.ood.lcp.foodstore.model.Food;
+import ru.job4j.ood.lcp.foodstore.model.*;
 import ru.job4j.ood.lcp.foodstore.store.Shop;
 import ru.job4j.ood.lcp.foodstore.store.Store;
 import ru.job4j.ood.lcp.foodstore.store.Trash;
 import ru.job4j.ood.lcp.foodstore.store.Warehouse;
-import ru.job4j.ood.lcp.foodstore.utils.DateChecker;
-
+import ru.job4j.ood.lcp.foodstore.utils.LocalDateExpirationDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ControlQualityTest {
 
     @Test
-    public void whenFirstTest() {
-        Food milk = new Food("Milk",
+    public void whenDistributeProductsThenAddedToList() {
+        Milk milk = new Milk("Milk",
                 LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
-                LocalDateTime.of(2023, Month.JANUARY, 31, 1, 1),
+                LocalDateTime.of(2023, Month.FEBRUARY, 5, 1, 1),
                 100,
                 5);
-        Food coffee = new Food("Coffee",
+        Coffee coffee = new Coffee("Coffee",
                 LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
                 LocalDateTime.of(2023, Month.DECEMBER, 31, 1, 1),
                 300,
                 8);
-        Food tea = new Food("Tea",
+        Tea tea = new Tea("Tea",
                 LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
                 LocalDateTime.of(2023, Month.FEBRUARY, 28, 1, 1),
                 80,
                 10);
-        Food banana = new Food("Banana",
+        Banana banana = new Banana("Banana",
                 LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
                 LocalDateTime.of(2023, Month.JANUARY, 24, 1, 1),
                 80,
                 10);
-        Shop shop = new Shop();
-        Warehouse warehouse = new Warehouse();
-        Trash trash = new Trash();
-        Map<String, Store> stores = new HashMap<>();
-        stores.put("Shop", shop);
-        stores.put("Warehouse", warehouse);
-        stores.put("Trash", trash);
-        DateChecker dateChecker = new DateChecker();
-        ControlQuality controlQuality = new ControlQuality(stores, dateChecker);
+        LocalDateExpirationDate localDateExpirationDate = new LocalDateExpirationDate();
+        Shop shop = new Shop(localDateExpirationDate);
+        Warehouse warehouse = new Warehouse(localDateExpirationDate);
+        Trash trash = new Trash(localDateExpirationDate);
+        List<Store> stores = new ArrayList<>();
+        stores.add(shop);
+        stores.add(warehouse);
+        stores.add(trash);
+        ControlQuality controlQuality = new ControlQuality(stores);
 
-        controlQuality.sendTo(milk);
-        controlQuality.sendTo(coffee);
-        controlQuality.sendTo(tea);
-        controlQuality.sendTo(banana);
+        controlQuality.distribute(milk);
+        controlQuality.distribute(coffee);
+        controlQuality.distribute(tea);
+        controlQuality.distribute(banana);
 
         assertThat(shop.getProducts()).contains(milk);
         assertThat(shop.getProducts().get(0).getPrice()).isEqualTo(95);

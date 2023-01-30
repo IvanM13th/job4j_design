@@ -6,10 +6,4 @@ public interface Store {
 
     boolean add(Food food);
 
-    boolean delete(Food food);
-
-    boolean replace(Food oldValue, Food newValue);
-
-    Food findByName(String name);
-
 }
