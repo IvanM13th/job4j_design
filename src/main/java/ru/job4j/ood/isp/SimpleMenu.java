@@ -8,15 +8,15 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-        if (!childrenNotExist(childName)) {
-            throw new IllegalArgumentException("Children already exists, choose another name");
+        if (childrenExists(childName)) {
+            return false;
         }
         if (Objects.equals(parentName, Menu.ROOT)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
         } else {
             Optional<ItemInfo> itemInfo = findItem(parentName);
             if (itemInfo.isEmpty()) {
-                throw new IllegalArgumentException("Parent was not found");
+                return false;
             }
             itemInfo.ifPresent(info -> info.menuItem.getChildren().add(new SimpleMenuItem(childName, actionDelegate)));
         }
@@ -26,9 +26,6 @@ public class SimpleMenu implements Menu {
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
         Optional<ItemInfo> itemInfo = findItem(itemName);
-        if (itemInfo.isEmpty()) {
-            throw new IllegalArgumentException("Item not found");
-        }
         return findItem(itemName).map(i -> new MenuItemInfo(itemInfo.get().menuItem, itemInfo.get().number));
     }
 
@@ -140,7 +137,7 @@ public class SimpleMenu implements Menu {
 
     }
 
-    private boolean childrenNotExist(String childName) {
-        return findItem(childName).isEmpty();
+    private boolean childrenExists(String childName) {
+        return findItem(childName).isPresent();
     }
 }
