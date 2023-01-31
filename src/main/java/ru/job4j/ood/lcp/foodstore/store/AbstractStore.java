@@ -1,6 +1,7 @@
 package ru.job4j.ood.lcp.foodstore.store;
 
 import ru.job4j.ood.lcp.foodstore.model.Food;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,5 +22,9 @@ public abstract class AbstractStore implements Store {
     public List<Food> getProducts() {
         List<Food> copy = List.copyOf(products);
         return copy;
+    }
+
+    public void clear() {
+        products.clear();
     }
 }
