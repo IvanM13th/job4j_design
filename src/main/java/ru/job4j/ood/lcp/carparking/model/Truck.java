@@ -5,9 +5,13 @@ public class Truck extends Vehicle {
 
     public Truck(int regNumber, int size) {
         super(regNumber);
-        if (size <= 1) {
+        if (size <= PassengerCar.SIZE) {
             throw new IllegalArgumentException("The size of a truck cannot be less than 1");
         }
         this.size = size;
+    }
+
+    public int getSize() {
+        return size;
     }
 }
