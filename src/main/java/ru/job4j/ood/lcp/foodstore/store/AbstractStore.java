@@ -19,7 +19,7 @@ public abstract class AbstractStore implements Store {
     protected abstract boolean isNotExpired(Food food);
 
     public List<Food> getProducts() {
-        List<Food> copyProductsList = products;
-        return copyProductsList;
+        List<Food> copy = List.copyOf(products);
+        return copy;
     }
 }

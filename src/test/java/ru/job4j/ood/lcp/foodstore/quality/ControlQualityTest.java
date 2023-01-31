@@ -6,9 +6,9 @@ import ru.job4j.ood.lcp.foodstore.store.Shop;
 import ru.job4j.ood.lcp.foodstore.store.Store;
 import ru.job4j.ood.lcp.foodstore.store.Trash;
 import ru.job4j.ood.lcp.foodstore.store.Warehouse;
-import ru.job4j.ood.lcp.foodstore.utils.LocalDateExpirationDate;
+import ru.job4j.ood.lcp.foodstore.utils.LocalDateTimeExpirationDate;
+
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,26 +19,26 @@ public class ControlQualityTest {
     @Test
     public void whenDistributeProductsThenAddedToList() {
         Milk milk = new Milk("Milk",
-                LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
-                LocalDateTime.of(2023, Month.FEBRUARY, 5, 1, 1),
+                LocalDateTime.now().minusDays(31),
+                LocalDateTime.now().plusDays(5),
                 100,
                 5);
         Coffee coffee = new Coffee("Coffee",
-                LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
-                LocalDateTime.of(2023, Month.DECEMBER, 31, 1, 1),
+                LocalDateTime.now().minusDays(31),
+                LocalDateTime.now().plusDays(300),
                 300,
                 8);
         Tea tea = new Tea("Tea",
-                LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
-                LocalDateTime.of(2023, Month.FEBRUARY, 28, 1, 1),
+                LocalDateTime.now().minusDays(31),
+                LocalDateTime.now().plusDays(28),
                 80,
                 10);
         Banana banana = new Banana("Banana",
-                LocalDateTime.of(2023, Month.JANUARY, 1, 1, 1),
-                LocalDateTime.of(2023, Month.JANUARY, 24, 1, 1),
+                LocalDateTime.now().minusDays(31),
+                LocalDateTime.now().minusDays(5),
                 80,
                 10);
-        LocalDateExpirationDate localDateExpirationDate = new LocalDateExpirationDate();
+        LocalDateTimeExpirationDate localDateExpirationDate = new LocalDateTimeExpirationDate();
         Shop shop = new Shop(localDateExpirationDate);
         Warehouse warehouse = new Warehouse(localDateExpirationDate);
         Trash trash = new Trash(localDateExpirationDate);

@@ -3,7 +3,7 @@ package ru.job4j.ood.lcp.foodstore.utils;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class LocalDateExpirationDate implements ExpirationCalculator<LocalDateTime> {
+public class LocalDateTimeExpirationDate implements ExpirationCalculator<LocalDateTime> {
 
     @Override
     public double getExpPercentage(LocalDateTime startDate, LocalDateTime endDate) {
