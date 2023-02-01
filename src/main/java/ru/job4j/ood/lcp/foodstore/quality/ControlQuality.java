@@ -28,7 +28,6 @@ public class ControlQuality {
         for (var food : products) {
             distribute(food);
         }
-        System.out.println("qq");
     }
 
     private void validate() {
