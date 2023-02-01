@@ -7,4 +7,7 @@ public abstract class Vehicle {
     public Vehicle(int regNumber) {
         this.regNumber = regNumber;
     }
+
+    public abstract int getSize();
+
 }

@@ -6,4 +6,9 @@ public class PassengerCar extends Vehicle {
     public PassengerCar(int regNumber) {
         super(regNumber);
     }
+
+    @Override
+    public int getSize() {
+        return SIZE;
+    }
 }

@@ -11,6 +11,7 @@ public class Truck extends Vehicle {
         this.size = size;
     }
 
+    @Override
     public int getSize() {
         return size;
     }

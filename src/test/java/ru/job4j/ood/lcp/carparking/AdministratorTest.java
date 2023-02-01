@@ -32,7 +32,7 @@ public class AdministratorTest {
     }
 
     /**
-     * Тест проверяет, что мы получим ошибку в случае,
+     * Тест проверяет, что метод вернет False,
      * когда все месте для траков уже заняты и на легковой парковке недостаточно мест.
      */
     @Test
@@ -43,14 +43,14 @@ public class AdministratorTest {
         FirstParking firstParking = new FirstParking(2, 2);
         firstParking.add(truck);
         firstParking.add(anotherTruck);
-        assertThatThrownBy(() -> firstParking.add(thirdTruck))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThat(firstParking.add(thirdTruck)).isFalse();
     }
 
     /**
      * Тест проверяет, что когда места на парковке для траков заняты,
      * мы можем разместить трак на парковке для легковых автомобилей,
-     * при этом легковой автомобиль встать туда не сможет, если закончились места
+     * при этом легковой автомобиль встать туда не сможет, если закончились места,
+     * метод вернет False
      */
     @Test
     public void whenPlaceTruckToPassengerPlaces() {
@@ -62,14 +62,12 @@ public class AdministratorTest {
         firstParking.add(anotherTruck);
         assertThat(firstParking.getTrucks()).contains(truck);
         assertThat(firstParking.getPassengerCars()).contains(anotherTruck);
-        assertThatThrownBy(() -> firstParking.add(pCar))
-                .isInstanceOf(IllegalArgumentException.class);
-
+        assertThat(firstParking.add(pCar)).isFalse();
     }
 
     /**
      * Тест проверяет, что в случае, когда места для траков заняты
-     * и на парковке для легковых нет мест, мы получим исключение
+     * и на парковке для легковых нет мест, метод вернет False
      */
     @Test
     public void whenPlaceTruckAndAnotherTruckThenException() {
@@ -81,14 +79,12 @@ public class AdministratorTest {
         firstParking.add(passengerCar);
         firstParking.add(anotherPassengerCar);
         firstParking.add(truck);
-        assertThatThrownBy(() -> firstParking.add(anotherTruck))
-                .isInstanceOf(IllegalArgumentException.class);
-
+        assertThat(firstParking.add(anotherTruck)).isFalse();
     }
 
     /**
      * Тест проверяет, что в случае, когда заняты места для легковых,
-     * но ест место для траков, при попытке поставить легковую мы получим исключение
+     * но есть место для траков, метод вернет False;
      */
     @Test
     public void whenTryToPlacePCarToTruckPlace() {
@@ -96,8 +92,6 @@ public class AdministratorTest {
         PassengerCar anotherPCar = new PassengerCar(2222);
         FirstParking firstParking = new FirstParking(1, 15);
         firstParking.add(pCar);
-        assertThatThrownBy(() -> firstParking.add(anotherPCar))
-                .isInstanceOf(IllegalArgumentException.class);
-
+        assertThat(firstParking.add(anotherPCar)).isFalse();
     }
 }
