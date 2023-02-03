@@ -7,6 +7,9 @@ public class TodoApp {
     private static final String NEW_CHILD_TASK = "Add new child task";
     private static final String SHOW_ALL_TASKS = "Show all tasks";
     private static final String QUIT = "Quit";
+    private static final int ONE = 1;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
 
     private final Menu menu;
     private final Scanner scanner;
@@ -39,11 +42,11 @@ public class TodoApp {
             menuPrinter.print(menu);
             System.out.println("Pick action: ");
             int i = Integer.parseInt(scanner.nextLine());
-            if (i == 1) {
+            if (i == ONE) {
                 executeChoice(NEW_TASK);
-            } else if (i == 2) {
+            } else if (i == TWO) {
                 executeChoice(NEW_CHILD_TASK);
-            } else if (i == 3) {
+            } else if (i == THREE) {
                 executeChoice(SHOW_ALL_TASKS);
             } else {
                 executeChoice(QUIT);
