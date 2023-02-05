@@ -1,5 +1,6 @@
 package ru.job4j.ood.lcp.carparking.parking;
 
+import ru.job4j.ood.lcp.carparking.model.PassengerCar;
 import ru.job4j.ood.lcp.carparking.model.Vehicle;
 
 import java.util.ArrayList;
@@ -23,17 +24,19 @@ public class FirstParking implements Parking {
     @Override
     public boolean add(Vehicle vehicle) {
         int size = findSize(vehicle);
-        return size == 1
+        return size == PassengerCar.SIZE
                 ? placePCar(vehicle)
                 : placeTruck(vehicle, size);
     }
 
     public List<Vehicle> getPassengerCars() {
-        return passengerCars;
+        List<Vehicle> passengerCarsCopy = new ArrayList<>(passengerCars);
+        return passengerCarsCopy;
     }
 
     public List<Vehicle> getTrucks() {
-        return trucks;
+        List<Vehicle> trucksCopy = new ArrayList<>(trucks);
+        return trucksCopy;
     }
 
     public int getPassengerPlaces() {
